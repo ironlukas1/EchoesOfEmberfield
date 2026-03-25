@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if(_currentStamina < weaponSwingCost)
+        if (_currentStamina < weaponSwingCost)
         {
             _canSwing = false;
         }
@@ -38,6 +38,21 @@ public class Player : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Debug.Log("Player is dead");
+        }
+    }
+
+    public void TakeDamage(float amount)
+    {
+        if (amount <= 0 || _currentHealth <= 0)
+            return;
+
+        _currentHealth = Mathf.Max(0, _currentHealth - amount);
+        Debug.Log($"Player took {amount} damage, health now {_currentHealth}/{_maxHealth}");
+
+        if (_currentHealth == 0)
+        {
+            Debug.Log("Player died.");
+            // TODO: add death behavior (respawn, game over, etc.)
         }
     }
 }
