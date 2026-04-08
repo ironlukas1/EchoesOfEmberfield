@@ -54,6 +54,15 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.sln.docstates
+*.userosscache
+
+# JetBrains IDE cache
+.idea/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
 
 # Unity3D generated meta files
 *.pidb.meta

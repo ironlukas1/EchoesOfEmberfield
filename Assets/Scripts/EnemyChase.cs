@@ -14,7 +14,7 @@ public class EnemyChase : MonoBehaviour
     public float stopDistance = 0.25f;
 
     [Tooltip("Damage applied when this enemy collides with the player.")]
-    public int damage = 1;
+    public int damage = 10;
 
     [Tooltip("Radius used to keep enemies from overlapping by applying a small repulsion force.")]
     public float separationRadius = 0.32f;
@@ -85,18 +85,25 @@ public class EnemyChase : MonoBehaviour
         if (!collision.collider.CompareTag("Player"))
             return;
 
-        // First try the new Player component.
-        var player = collision.collider.GetComponent<Player>();
-        if (player != null)
+        // Prefer PlayerHealth because the HUD reads from PlayerHealth.
+        var playerHealth = collision.collider.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            player.TakeDamage(damage);
+            if (playerHealth.IsInvincible)
+                return;
+
+            Debug.Log($"{name}: collided with PlayerHealth, applying {damage} damage.");
+            playerHealth.TakeDamage(damage);
             return;
         }
 
-        // Backwards-compatibility layer.
-        var legacyHealth = collision.collider.GetComponent<PlayerHealth>();
-        if (legacyHealth != null)
-            legacyHealth.TakeDamage(damage);
+        // Backwards-compatibility for the older Player script.
+        var player = collision.collider.GetComponent<Player>();
+        if (player != null)
+        {
+            Debug.Log($"{name}: collided with Player, applying {damage} damage.");
+            player.TakeDamage(damage);
+        }
     }
 
     private void OnDrawGizmosSelected()

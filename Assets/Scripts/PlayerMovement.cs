@@ -29,6 +29,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGameplayBlocked)
+        {
+            _direction = Vector2.zero;
+            return;
+        }
+
         _direction = new Vector2(0, 0);
 
         if (Input.GetKey(KeyCode.W))
@@ -54,6 +60,12 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGameplayBlocked)
+        {
+            _rigidBody.linearVelocity = Vector2.zero;
+            return;
+        }
+
         if (Input.GetKeyUp(KeyCode.W) && Input.GetKeyUp(KeyCode.S))
         {
             Debug.Log("Direction none");

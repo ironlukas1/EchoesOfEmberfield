@@ -16,6 +16,9 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (GameStateManager.Instance != null && GameStateManager.Instance.IsGameplayBlocked)
+            return;
+
         if (attackPrefab == null)
             return;
 

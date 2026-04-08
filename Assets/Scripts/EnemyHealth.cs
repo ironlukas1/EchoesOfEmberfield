@@ -22,6 +22,8 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = Mathf.Max(0, currentHealth - amount);
         Debug.Log($"{name} took {amount} damage, health now {currentHealth}/{maxHealth}");
 
+        DamagePopup.Spawn(amount, transform.position + Vector3.up * 1.2f);
+
         if (currentHealth == 0)
             Die();
     }
